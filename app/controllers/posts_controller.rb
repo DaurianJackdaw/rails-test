@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :reply]
 
   # GET /posts
   # GET /posts.json
@@ -12,6 +12,11 @@ class PostsController < ApplicationController
   def show
     @post.clicks += 1
     @post.save
+  end
+
+  def reply
+    @post.replies.create(params[:reply].permit[:body])
+    redirect_to :back, notice: "Reply success"
   end
 
   # GET /posts/new
